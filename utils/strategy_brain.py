@@ -1,11 +1,21 @@
 import json
 import os
+import sys
+import site
 from langchain_core.messages import HumanMessage
-from dotenv import load_dotenv
+
+user_site = site.getusersitepackages()
+if user_site and user_site not in sys.path:
+    sys.path.insert(0, user_site)
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 from utils.prompts import STRATEGY_PROMPT
 from utils.llm_provider import get_llm as get_provider_llm
-
-load_dotenv()
 
 
 def get_llm():
